@@ -5,6 +5,8 @@ const projectRouter = require("./data/routers/projectRouter");
 
 const server = express();
 
+server.use(express.json())
+
 // logger middleware
 
 function logger(req, res, next) {

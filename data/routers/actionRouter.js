@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     Actions.get(req.params.id)
     .then(action => {
-        if (projects.length !== 0) {
+        if (action.length !== 0) {
             res.status(200).json(action)
         } else {
             res.status(400).json({ message: "The project with the specified ID doesn't exist."})
@@ -32,12 +32,13 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
     const actionData = req.body;
+    console.log(req.body)
     if (!actionData.project_id || !actionData.description || !actionData.notes){
         res.status(400).json({error: "Please provide a project id, description, and notes."})
       } else {
-        Actions.insert(req.body)
-        .then(project => {
-          res.status(201).json(project)
+        Actions.insert(actionData)
+        .then(action => {
+          res.status(201).json(action)
         })
         .catch(err => {
           console.log(err)
@@ -52,9 +53,9 @@ router.put("/:id", (req, res) => {
     if (!actionData.project_id || !actionData.description || !actionData.notes){
         res.status(400).json({error: "Please provide a project id, description, and notes."})
       } else {
-        Actions.update(actionData, id)
+        Actions.update(id, actionData)
         .then(action => {
-            if (project) {
+            if (action) {
                 res.status(200).json(action)
             } else {
                 res.status(404).json({ message: "The action with the specified ID doesn't exist."})

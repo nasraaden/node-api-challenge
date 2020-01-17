@@ -2,9 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
-const Projects = require("../helpers/projectModel");
+const Projects = require("../helpers/projectModel.js");
 
 router.get("/", (req, res) => {
+    console.log(req.body)
     Projects.get()
     .then(projects => {
         res.status(200).json(projects)
@@ -31,8 +32,8 @@ router.get("/:id", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-    const projectData = req.body;
-    if (!projectData.name || !projectData.description){
+    const {name, description} = req.body;
+    if (!name || !description){
         res.status(400).json({error: "Name and description are required."})
       } else {
         Projects.insert(req.body)
