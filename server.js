@@ -5,6 +5,16 @@ const projectRouter = require("./data/routers/projectRouter");
 
 const server = express();
 
+// logger middleware
+
+function logger(req, res, next) {
+    const { method, originalUrl } = req;
+    console.log(`${method} to ${originalUrl} on ${Date()}`)
+    next();
+}
+
+server.use(logger);
+
 server.use("/api/actions", actionRouter);
 server.use("/api/projects", projectRouter);
 
